@@ -1,61 +1,54 @@
 
 class StudentManager:
     def __init__(self):
+        # Inicializa uma lista vazia para armazenar os alunos
         self.students = []
 
     def add_student(self, name, logic, python, sql):
-        average = self.calculate_average(logic, python, sql)
-        status = self.determine_status(average)
-        self.students.append({
-            "name": name,
-            "grades": {"logic": logic, "python": python, "sql": sql},
-            "average": average,
-            "status": status
-        })
-
-    def calculate_average(self, logic, python, sql):
-        return (logic + python + sql) / 3
-
-    def determine_status(self, average):
+        # Calcula a média das três notas
+        average = (logic + python + sql) / 3
+        # Determina o status do aluno com base na média
         if average >= 7.0:
-            return "Aprovado"
+            status = "Aprovado"
         elif average >= 5.0:
-            return "De recuperação"
+            status = "De recuperação"
         else:
-            return "Reprovado"
+            status = "Reprovado"
+        # Armazena as informações do aluno como uma tupla na lista de alunos
+        self.students.append((name, average, status))
 
     def list_students(self):
-        return self.students
+        # Imprime todos os alunos com suas médias e status
+        for student in self.students:
+            name, average, status = student
+            print(f"{name} - Média: {average:.2f} - Status: {status}")
 
 def main():
+    # Cria uma instância da classe StudentManager
     manager = StudentManager()
+    # Loop principal do programa para interação do usuário
     while True:
-        print("\nMenu:")
-        print("1. Adicionar aluno")
-        print("2. Listar todos os alunos")
-        print("3. Sair")
-        choice = input("Escolha uma opção: ")
-        
+        # Exibe o menu de opções para o usuário
+        choice = input("\n1. Adicionar aluno\n2. Listar todos os alunos\n3. Sair\nEscolha uma opção: ")
         if choice == '1':
+            # Solicita ao usuário as informações do aluno
             name = input("Nome do aluno: ")
             logic = float(input("Nota de Lógica: "))
             python = float(input("Nota de Python: "))
             sql = float(input("Nota de SQL: "))
+            # Adiciona o aluno usando as informações fornecidas
             manager.add_student(name, logic, python, sql)
             print(f"Aluno {name} adicionado com sucesso!")
         elif choice == '2':
-            students = manager.list_students()
-            if students:
-                print("\nLista de Alunos:")
-                for student in students:
-                    print(f"{student['name']} - Média: {student['average']:.2f} - Status: {student['status']}")
-            else:
-                print("Nenhum aluno registrado.")
+            # Lista todos os alunos registrados
+            manager.list_students()
         elif choice == '3':
+            # Encerra o programa
             print("Encerrando o programa.")
             break
         else:
-            print("Opção inválida. Por favor, tente novamente.")
+            # Lida com a entrada inválida do usuário
+            print("Opção inválida. Tente novamente.")
 
 if __name__ == "__main__":
     main()
